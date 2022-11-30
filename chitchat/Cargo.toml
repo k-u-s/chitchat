@@ -15,11 +15,22 @@ rand = { version = "0.8", features = ["small_rng"] }
 serde = { version="1", features=["derive"] }
 tokio = { version = "1.14.0", features = ["net", "sync", "rt-multi-thread", "macros", "time"] }
 tokio-stream = { version = "0.1", features = [ "sync" ] }
+# Workaround for: https://github.com/dtolnay/thiserror/issues/192#issuecomment-1280003127
+thiserror = "=1.0.34"
 anyhow = "1.0.51"
 tracing = "0.1"
 async-trait = "0.1"
+quinn = { version = "0.9", optional = true }
 
 [dev-dependencies]
 assert-json-diff = "2"
 mock_instant = "0.2.1"
 tracing-subscriber = "0.3"
+# Required to auto generate certs for quinn transport
+rcgen = { version = "0.10" }
+rustls = { version = "0.20", features = ["dangerous_configuration", "quic"] }
+
+[features]
+default = []
+# Enables quinn transport implementation
+quinn-transport = ["dep:quinn"]
